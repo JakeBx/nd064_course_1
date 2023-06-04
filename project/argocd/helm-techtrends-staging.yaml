@@ -4,17 +4,15 @@ metadata:
   name: techtrends-staging
   namespace: argocd
 spec:
-  destination:
-#    name: 'techtrends-staging'
-    namespace: default
-    server: 'https://kubernetes.default.svc'
-  source:
-    path: ./project/helm/techtrends/chart
-    repoURL: 'https://github.com/JakeBx/nd064_course_1.git'
-    targetRevision: HEAD
-  sources: []
   project: default
+  source:
+    repoURL: 'https://github.com/JakeBx/nd064_course_1.git'
+    path: project/helm/techtrends-chart
+    targetRevision: HEAD
+    helm:
+      valueFiles:
+        - values-staging.yaml
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: staging
   syncPolicy: {}
-#    automated:
-#      prune: false
-#      selfHeal: false
