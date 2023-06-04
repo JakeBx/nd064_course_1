@@ -16,6 +16,7 @@ spec:
       containers:
         - name: techtrends
           image: jaysney/techtrends:latest
+          imagePullPolicy: "Always"
           ports:
             - containerPort: 3111
           resources:
