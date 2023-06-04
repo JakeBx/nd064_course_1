@@ -1,0 +1,46 @@
+WARNING:werkzeug: * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+INFO:werkzeug: * Running on http://192.168.20.65:3111/ (Press CTRL+C to quit)
+ERROR:app:Exception on / [GET]
+Traceback (most recent call last):
+  File "C:\Users\Jacob\miniconda3\envs\nd064_course_1\lib\site-packages\flask\app.py", line 2077, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Jacob\miniconda3\envs\nd064_course_1\lib\site-packages\flask\app.py", line 1525, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\Jacob\miniconda3\envs\nd064_course_1\lib\site-packages\flask\app.py", line 1523, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Jacob\miniconda3\envs\nd064_course_1\lib\site-packages\flask\app.py", line 1509, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "C:\Users\Jacob\Projects\nd064_course_1\project\techtrends\app.py", line 30, in index
+    posts = connection.execute('SELECT * FROM posts').fetchall()
+sqlite3.OperationalError: no such table: posts
+INFO:werkzeug:127.0.0.1 - - [03/Jun/2023 18:49:28] "[35m[1mGET / HTTP/1.1[0m" 500 -
+INFO:werkzeug:127.0.0.1 - - [03/Jun/2023 18:49:28] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+WARNING:werkzeug: * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+INFO:werkzeug: * Running on http://192.168.20.65:3111/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [03/Jun/2023 18:50:58] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [03/Jun/2023 18:50:58] "GET /static/css/main.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [03/Jun/2023 18:50:58] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:app:Article 1
+INFO:werkzeug:127.0.0.1 - - [03/Jun/2023 18:51:18] "GET /1 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [03/Jun/2023 18:51:19] "GET /static/css/main.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [03/Jun/2023 18:51:19] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [03/Jun/2023 18:54:11] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [03/Jun/2023 18:54:11] "GET /static/css/main.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [03/Jun/2023 18:54:11] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+WARNING:werkzeug: * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+INFO:werkzeug: * Running on http://192.168.20.65:3111/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [03/Jun/2023 18:54:32] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [03/Jun/2023 18:54:32] "GET /static/css/main.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [03/Jun/2023 18:54:32] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [03/Jun/2023 18:54:34] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [03/Jun/2023 18:54:34] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
+INFO:app:Article 1
+INFO:werkzeug:127.0.0.1 - - [03/Jun/2023 18:54:37] "GET /1 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [03/Jun/2023 18:54:37] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
+INFO:app:404
+INFO:werkzeug:127.0.0.1 - - [03/Jun/2023 18:54:41] "[33mGET /14 HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [03/Jun/2023 18:54:41] "GET /static/css/main.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [03/Jun/2023 18:54:41] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -

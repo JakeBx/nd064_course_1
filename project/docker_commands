@@ -1,11 +1,40 @@
 ## Docker commands used to build the application 
-# TODO: insert the docker build command
+# Use Python base image version 3.8
+FROM python:3.8
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Expose port 3111
+EXPOSE 3111
+
+# Copy the application files to the container
+COPY . .
+
+# Install packages defined in requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Run the init_db.py script to initialize the database
+RUN python init_db.py
+
+# Set the command to execute the application at container start
+CMD ["python", "app.py"]
 
 ## Docker commands used to run the application
-# TODO: insert the docker run command
+docker run -d -p 7111:3111 10aa84eb04ed
 
 ## Docker commands used to get the application logs
-# TODO: insert the docker logs command
+docker logs --tail=<number_of_lines> --follow 5eb9fd5c6c25
 
 ## Logs from the container running the TechTrends application
-# TODO: paste logs from the Docker container 
+INFO:werkzeug:172.17.0.1 - - [03/Jun/2023 23:50:06] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:172.17.0.1 - - [03/Jun/2023 23:50:06] "GET /static/css/main.css HTTP/1.1" 200 -
+INFO:werkzeug:172.17.0.1 - - [03/Jun/2023 23:50:06] "GET /favicon.ico HTTP/1.1" 404 -
+INFO:app:About page
+INFO:werkzeug:172.17.0.1 - - [03/Jun/2023 23:51:22] "GET /about HTTP/1.1" 200 -
+INFO:werkzeug:172.17.0.1 - - [03/Jun/2023 23:51:22] "GET /static/css/main.css HTTP/1.1" 200 -
+INFO:werkzeug:172.17.0.1 - - [03/Jun/2023 23:51:22] "GET /favicon.ico HTTP/1.1" 404 -
+INFO:werkzeug:172.17.0.1 - - [03/Jun/2023 23:52:07] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:172.17.0.1 - - [03/Jun/2023 23:52:07] "GET /static/css/main.css HTTP/1.1" 200 -
+INFO:werkzeug:172.17.0.1 - - [03/Jun/2023 23:52:07] "GET /favicon.ico HTTP/1.1" 404 -
+

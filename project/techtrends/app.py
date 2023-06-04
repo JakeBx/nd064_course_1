@@ -1,4 +1,5 @@
 import sqlite3
+import logging
 
 from flask import Flask, jsonify, json, render_template, request, url_for, redirect, flash
 from werkzeug.exceptions import abort
@@ -36,13 +37,16 @@ def index():
 def post(post_id):
     post = get_post(post_id)
     if post is None:
-      return render_template('404.html'), 404
+        app.logger.info(f'404: No article')
+        return render_template('404.html'), 404
     else:
+      app.logger.info(f'Article {post["title"]}')
       return render_template('post.html', post=post)
 
 # Define the About Us page
 @app.route('/about')
 def about():
+    app.logger.info('About page')
     return render_template('about.html')
 
 # Define the post creation functionality 
@@ -61,10 +65,37 @@ def create():
             connection.commit()
             connection.close()
 
+            app.logger.info(f'Article Created: {title}')
+
             return redirect(url_for('index'))
 
     return render_template('create.html')
 
+@app.route('/healthz')
+def status():
+    response = app.response_class(
+            response=json.dumps({"result":"OK - healthy"}),
+            status=200,
+            mimetype='application/json'
+    )
+    return response
+
+@app.route('/metrics')
+def metrics():
+    connection = get_db_connection()
+    n_posts = connection.execute('SELECT COUNT(*) FROM posts').fetchone()[0]
+    # Get the total amount of connections to the database
+    n_connections = len(connection.execute('PRAGMA database_list').fetchall())
+    connection.close()
+
+    response = app.response_class(
+            response=json.dumps({"status":"success","code":0,"data":{"db_connection_count": n_connections,"post_count": n_posts}}),
+            status=200,
+            mimetype='application/json'
+    )
+    return response
+
 # start the application on port 3111
 if __name__ == "__main__":
-   app.run(host='0.0.0.0', port='3111')
+    logging.basicConfig(level=logging.DEBUG)
+    app.run(host='0.0.0.0', port='3111')
