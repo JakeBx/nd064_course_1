@@ -10,6 +10,8 @@ EXPOSE 3111
 # Copy the application files to the container
 COPY . .
 
+RUN ls
+
 # Install packages defined in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
