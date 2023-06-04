@@ -18,7 +18,13 @@ spec:
           image: jaysney/techtrends:latest
           ports:
             - containerPort: 3111
-          resources: {{ .Values.resources }}
+          resources:
+            requests:
+              cpu: {{ .Values.resources.requests.cpu }}
+              memory: {{ .Values.resources.requests.memory }}
+            limits:
+              cpu: {{ .Values.resources.limits.cpu }}
+              memory: {{ .Values.resources.limits.memory }}
           livenessProbe:
             httpGet:
               path: /healthz
