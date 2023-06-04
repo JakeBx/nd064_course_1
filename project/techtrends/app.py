@@ -5,6 +5,32 @@ import sys
 from flask import Flask, jsonify, json, render_template, request, url_for, redirect, flash
 from werkzeug.exceptions import abort
 
+# Configure root logger
+logging.basicConfig(level=logging.DEBUG)
+
+# Create handlers for STDERR and STDOUT
+stderr_handler = logging.StreamHandler(sys.stderr)
+stdout_handler = logging.StreamHandler(sys.stdout)
+
+# Create formatters for the handlers
+formatter = logging.Formatter('%(asctime)s %(levelname)s: %(message)s')
+
+# Set the formatter for each handler
+stderr_handler.setFormatter(formatter)
+stdout_handler.setFormatter(formatter)
+
+# Create loggers
+stderr_logger = logging.getLogger('stderr_logger')
+stdout_logger = logging.getLogger('stdout_logger')
+
+# Set the log level for each logger
+stderr_logger.setLevel(logging.ERROR)
+stdout_logger.setLevel(logging.INFO)
+
+# Add the handlers to the loggers
+stderr_logger.addHandler(stderr_handler)
+stdout_logger.addHandler(stdout_handler)
+
 connection_count = 0
 
 # Define the Flask application
@@ -42,16 +68,16 @@ def index():
 def post(post_id):
     post = get_post(post_id)
     if post is None:
-        app.logger.info(f'404: No article')
+        stderr_logger.error('404: No article')
         return render_template('404.html'), 404
     else:
-      app.logger.info(f'Article {post["title"]}')
+      stdout_logger.info(f'Article {post["title"]}')
       return render_template('post.html', post=post)
 
 # Define the About Us page
 @app.route('/about')
 def about():
-    app.logger.info('About page')
+    stdout_logger.info('About page')
     return render_template('about.html')
 
 # Define the post creation functionality 
@@ -70,7 +96,7 @@ def create():
             connection.commit()
             connection.close()
 
-            app.logger.info(f'Article Created: {title}')
+            stdout_logger.info(f'Article Created: {title}')
 
             return redirect(url_for('index'))
 
@@ -105,9 +131,4 @@ def metrics():
 
 # start the application on port 3111
 if __name__ == "__main__":
-    logging.basicConfig(
-        level=logging.DEBUG,
-        stream=sys.stdout,
-        format='%(asctime)s %(levelname)s: %(message)s'
-    )
     app.run(host='0.0.0.0', port='3111')
