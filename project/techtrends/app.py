@@ -1,14 +1,27 @@
 import sqlite3
 import logging
+import sys
 
 from flask import Flask, jsonify, json, render_template, request, url_for, redirect, flash
 from werkzeug.exceptions import abort
+
+logging.basicConfig(
+    format='%(asctime)s %(levelname)s: %(message)s',
+    level=logging.DEBUG,
+    stream=sys.stdout
+)
+
+# Define the Flask application
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'your secret key'
+app.config['db_connection_count'] = 0
 
 # Function to get a database connection.
 # This function connects to database with the name `database.db`
 def get_db_connection():
     connection = sqlite3.connect('database.db')
     connection.row_factory = sqlite3.Row
+    app.config['db_connection_count'] += 1
     return connection
 
 # Function to get a post using its ID
@@ -18,10 +31,6 @@ def get_post(post_id):
                         (post_id,)).fetchone()
     connection.close()
     return post
-
-# Define the Flask application
-app = Flask(__name__)
-app.config['SECRET_KEY'] = 'your secret key'
 
 # Define the main route of the web application 
 @app.route('/')
@@ -85,7 +94,7 @@ def metrics():
     connection = get_db_connection()
     n_posts = connection.execute('SELECT COUNT(*) FROM posts').fetchone()[0]
     # Get the total amount of connections to the database
-    n_connections = len(connection.execute('PRAGMA database_list').fetchall())
+    n_connections = app.config['db_connection_count']
     connection.close()
 
     response = app.response_class(
