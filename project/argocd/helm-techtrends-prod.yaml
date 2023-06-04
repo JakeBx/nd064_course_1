@@ -1,20 +1,18 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: techtrends-prod
+  name: techtrends-staging
+  namespace: argocd
 spec:
-#  destination:
-#    namespace: sandbox
-#    server: https://kubernetes.default.svc
   project: default
   source:
+    repoURL: 'https://github.com/JakeBx/nd064_course_1.git'
+    path: project/helm/techtrends-chart
+    targetRevision: HEAD
     helm:
       valueFiles:
         - values-prod.yaml
-      chart: techtrends-chart
-    repoURL: https://github.com/JakeBx/nd064_course_1.git
-    targetRevision: HEAD
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: prod
+  syncPolicy: {}
